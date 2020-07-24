@@ -23,7 +23,7 @@ export const logout = async () => {
   try {
     const res = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:3000/api/v1/users/logout'
+      url: '/api/v1/users/logout'
     });
     if (res.data.status === 'success') {
       // this will reload  form the sever since our template is in server
@@ -31,5 +31,27 @@ export const logout = async () => {
     }
   } catch (err) {
     showAlert('error', 'Error logging out!');
+  }
+};
+export const signup = async (name, email, password, passwordConfirm) => {
+  try {
+    if (password !== passwordConfirm) {
+      showAlert('error', 'Password and confirm password should be same');
+      return;
+    }
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/users/signup',
+      data: { name, email, password, passwordConfirm }
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'signed in successfully');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    console.log(err);
+    showAlert('error', 'Error signing up!');
   }
 };

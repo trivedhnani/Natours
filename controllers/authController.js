@@ -61,6 +61,7 @@ exports.login = catchAsync(async (req, res, next) => {
   createAndSendToken(req, res, user, 200);
 });
 exports.logout = (req, res, next) => {
+  console.log('Hello');
   res.cookie('jwt', 'loggedOUT', {
     expiresIn: Date.now() + 1000 * 10,
     httpOnly: true

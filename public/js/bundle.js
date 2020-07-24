@@ -8368,7 +8368,7 @@ exports.showAlert = showAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.login = void 0;
+exports.signup = exports.logout = exports.login = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -8444,7 +8444,7 @@ var logout = /*#__PURE__*/function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'GET',
-              url: 'http://127.0.0.1:3000/api/v1/users/logout'
+              url: '/api/v1/users/logout'
             });
 
           case 3:
@@ -8477,6 +8477,70 @@ var logout = /*#__PURE__*/function () {
 }();
 
 exports.logout = logout;
+
+var signup = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(name, email, password, passwordConfirm) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+
+            if (!(password !== passwordConfirm)) {
+              _context3.next = 4;
+              break;
+            }
+
+            (0, _alert.showAlert)('error', 'Password and confirm password should be same');
+            return _context3.abrupt("return");
+
+          case 4:
+            _context3.next = 6;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: '/api/v1/users/signup',
+              data: {
+                name: name,
+                email: email,
+                password: password,
+                passwordConfirm: passwordConfirm
+              }
+            });
+
+          case 6:
+            res = _context3.sent;
+
+            if (res.data.status === 'success') {
+              (0, _alert.showAlert)('success', 'signed in successfully');
+              window.setTimeout(function () {
+                location.assign('/');
+              }, 1500);
+            }
+
+            _context3.next = 14;
+            break;
+
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](0);
+            console.log(_context3.t0);
+            (0, _alert.showAlert)('error', 'Error signing up!');
+
+          case 14:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 10]]);
+  }));
+
+  return function signup(_x3, _x4, _x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.signup = signup;
 },{"axios":"../../node_modules/axios/index.js","./alert":"alert.js"}],"mapbox.js":[function(require,module,exports) {
 "use strict";
 
@@ -8926,6 +8990,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // DOM Elements
 var mapBox = document.getElementById('map');
 var loginForm = document.querySelector('.form--login');
+var signupForm = document.querySelector('.form--signup');
 var logoutBtn = document.querySelector('.nav__el--logout');
 var updateForm = document.querySelector('.form-user-data');
 var updatePasswordForm = document.querySelector('.form-user-password');
@@ -8934,6 +8999,17 @@ var bookBtn = document.querySelector('#booktour');
 if (mapBox) {
   var locations = JSON.parse(document.getElementById('map').dataset.locations);
   (0, _mapbox.displayMap)(locations);
+}
+
+if (signupForm) {
+  signupForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var name = document.querySelector('#name').value;
+    var email = document.querySelector('#email').value;
+    var password = document.querySelector('#password').value;
+    var confirmPassword = document.querySelector('#confirmpassword').value;
+    (0, _login.signup)(name, email, password, confirmPassword);
+  });
 }
 
 if (loginForm) {
@@ -9058,7 +9134,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51258" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61363" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
